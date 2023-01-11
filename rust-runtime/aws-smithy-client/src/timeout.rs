@@ -94,7 +94,7 @@ pub struct TimeoutService<S> {
     params: Option<TimeoutServiceParams>,
 }
 
-impl<S> Clone for TimeoutService<S> {
+impl<S: Clone> Clone for TimeoutService<S> {
     fn clone(&self) -> Self {
         todo!()
     }

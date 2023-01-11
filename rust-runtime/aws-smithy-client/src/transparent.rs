@@ -9,6 +9,12 @@ use tower::{Layer, Service};
 
 pub struct TransparentService<S, Req>(S, PhantomData<Req>);
 
+impl<S: Clone, Req> Clone for TransparentService<S, Req> {
+    fn clone(&self) -> Self {
+        todo!()
+    }
+}
+
 impl<S, Req> TransparentService<S, Req>
 where
     S: Service<Req>,
