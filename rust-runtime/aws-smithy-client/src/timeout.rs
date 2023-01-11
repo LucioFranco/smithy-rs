@@ -88,10 +88,16 @@ impl ClientTimeoutParams {
 
 /// A service that wraps another service, adding the ability to set a timeout for requests
 /// handled by the inner service.
-#[derive(Clone, Debug)]
+#[derive(Debug)]
 pub struct TimeoutService<S> {
     inner: S,
     params: Option<TimeoutServiceParams>,
+}
+
+impl<S> Clone for TimeoutService<S> {
+    fn clone(&self) -> Self {
+        todo!()
+    }
 }
 
 impl<S> TimeoutService<S> {
@@ -159,6 +165,8 @@ pin_project! {
         }
     }
 }
+
+unsafe impl<F> Send for TimeoutServiceFuture<F> {}
 
 impl<F> TimeoutServiceFuture<F> {
     /// Given a `future`, an implementor of `AsyncSleep`, a `kind` for this timeout, and a `duration`,

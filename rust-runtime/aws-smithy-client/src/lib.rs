@@ -222,6 +222,7 @@ where
                 self.retry_policy
                     .new_request_policy(self.sleep_impl.clone()),
             )
+            // .buffer(100)
             .layer(TimeoutLayer::new(timeout_params.operation_attempt_timeout))
             .layer(TransparentLayer::new())
             .layer(ParseResponseLayer::<O, Retry>::new())
@@ -249,7 +250,7 @@ where
         }
         let op = Operation::from_parts(req, parts);
 
-        let result = async move { check_send_sync(svc).ready().await?.call(op).await }
+        let result = async move { check_send_sync(svc).call(op).await }
             .instrument(span.clone())
             .await;
         match &result {
